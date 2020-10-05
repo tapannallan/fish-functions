@@ -1,4 +1,4 @@
-function dbconnimpl
+function e-dbconnimpl
 
     set localport (eval "echo \$$ENVNUM"_PSQL_PORT)
 	echo 1 $ENVNUM

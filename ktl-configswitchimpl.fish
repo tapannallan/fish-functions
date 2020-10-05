@@ -1,6 +1,13 @@
 	function ktl-configswitchimpl
 	set key (string sub --length 3 $ENVNUM)
 
+	if [ "$ENVNUM" = "devint" ]
+		cp ~/.kube/uat-config ~/.kube/config
+		echo kube config changed to uat
+		echo Environment changed to $ENVNUM
+        return
+	end
+
 	if [ "$key" = "dev" ]
 		cp ~/.kube/dev-config ~/.kube/config
 		echo kube config changed to dev
