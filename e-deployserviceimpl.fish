@@ -84,8 +84,8 @@ function e-deployserviceimpl
         #if config map change is required
         # TODO: Open configmap in a editor if the configmap switch is included
 
-        git commit -a -m "auto-deploying $git_branch" /dev/null 2>&1
-        git push origin $ENVNUM /dev/null 2>&1
+        git commit -a -m "auto-deploying $git_branch" > /dev/null 2>&1
+        git push origin $ENVNUM > /dev/null 2>&1
 
         printsuccess DEPLOYED
     else

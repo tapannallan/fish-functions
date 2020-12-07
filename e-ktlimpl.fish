@@ -15,5 +15,5 @@ function e-ktlimpl
     else
         set config "$HOME/.kube/dev-config"
     end
-    kubectl --kubeconfig $config $argv 
+    eval "kubectl --kubeconfig $config $argv" 
 end
