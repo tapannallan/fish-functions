@@ -23,7 +23,12 @@ function gitlab-get
     end
     set -q content_type; or set content_type "json";
 
-    set response (curl $location_prop -s --header "Private-Token: $GITLAB_PRIVATE_TOKEN" https://gitlab.verimi.cloud/api/v4$endpoint)
+    echo "curl $location_prop -s --header \"Private-Token: $GITLAB_PRIVATE_TOKEN\" https://gitlab.verimi.cloud/api/v4$endpoint?page=1&per_page=5"
+    return
+    #set response (curl $location_prop -s --header "Private-Token: $GITLAB_PRIVATE_TOKEN" https://gitlab.verimi.cloud/api/v4$endpoint?page\=1&per_page\=5)
+
+    
+
     if [ "$content_type" = "json" ]
         echo $response | jq -r $json_selector
     else if [ "$content_type" = "file" ]

@@ -1,12 +1,17 @@
 function e-smoketestimpl
     
     #get project id
-    set project_id (gitlab-get -e /groups/verimi-platform -s ".projects[] | select(.name==\"test-frontend\").id")
+    set project_id (gitlab-get -e /groups/verimi-platform -s ".projects[] | select(.name==\"system-test\").id")
 
     #Start Smoke test
     set pipeline_id (gitlab-post -c json -s ".id" -e "/projects/$project_id/pipeline" -p '{"ref": "master", "variables" : [{ "key": "TEST_ENV", "variable_type": "env_var", "secret_value": "'$ENVNUM'" },{ "key": "ACTION", "variable_type": "env_var", "secret_value": "smoke_test" }]}')
-    echo "Running smoke test pipeline at https://gitlab.verimi.cloud/verimi-platform/test-frontend/pipelines/$pipeline_id"
+    if [ "$key" = "" ]
+		echo Could not start pipeline for smoke test.
+        return
+	end
+    echo "Running smoke test pipeline at https://gitlab.verimi.cloud/verimi-platform/system-test/pipelines/$pipeline_id"
     
+
     #Get Frontend smoke test job
     set job (gitlab-get -e /projects/$project_id/pipelines/$pipeline_id/jobs -s '.[] | select(.name == "dev_fe_smoke_test")')
     set job_id (echo $job | jq -r '.id')

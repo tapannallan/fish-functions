@@ -5,8 +5,11 @@ function setenv
 	else
         # Set environment
         set -x ENVNUM $argv[1]
-        echo $ENVNUM
+
 		# Switch kubernetes config file
 		ktl-configswitchimpl
+
+		# Set DB Env
+		e-switchdbimpl
 	end
 end

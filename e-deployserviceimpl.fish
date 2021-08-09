@@ -42,6 +42,8 @@ function e-deployserviceimpl
     echo Initial Job status is $job_status
     set time_out_count 120
     echo -n "Checking if docker image build job is finished.."
+
+    #TODO: This while expression fails sporadically, needs to be fixed
     while test $time_out_count -gt 0 -a \( $job_status = "created" -o $job_status = "pending" -o $job_status = "running" \);
         echo -n .
         sleep 5;
@@ -70,11 +72,16 @@ function e-deployserviceimpl
         echo Image tag is $image_tag 
 
         # checkout branch in env repo
-        cd $ENVIRONMENTS_REPO
+        pushd $ENVIRONMENTS_REPO
+        echo stashing environments repo \n
         git stash > /dev/null
         git checkout -- . > /dev/null
-        git checkout $ENVNUM > /dev/null 2>&1
-        git pull > /dev/null
+
+        echo checkout $ENVNUM branch in environments repo \n 
+        git checkout $ENVNUM > /dev/null
+
+        echo Pulling in latest changes \n
+        git pull > /dev/null 
 
         #change the service file
         sed -e "s|\(  tag:\).*|\1 $image_tag|;s|\(\ttag:\).*|\1 $image_tag|" config/service/$service_name.yaml > config/service/updated_$service_name.yaml
@@ -84,9 +91,10 @@ function e-deployserviceimpl
         #if config map change is required
         # TODO: Open configmap in a editor if the configmap switch is included
 
-        git commit -a -m "auto-deploying $git_branch" > /dev/null 2>&1
-        git push origin $ENVNUM > /dev/null 2>&1
+        git commit -a -m "auto-deploying $git_branch"
+        git push origin $ENVNUM
 
+        popd
         printsuccess DEPLOYED
     else
         printerror "job was not successful. exiting..."
