@@ -30,6 +30,13 @@
 		return
 	end
 
+	if [ "$key" = "waas" ]
+		cp ~/.kube/gematik-config ~/.kube/config
+		echo kube config changed to the galactus environment
+		echo Environment changed to $ENVNUM
+		return
+	end
+
 	echo $ENVNUM is not a valid environment. Switching to dev1
 	export ENVNUM=dev1
 	ktl-configswitchimpl
