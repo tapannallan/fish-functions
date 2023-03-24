@@ -1,8 +1,8 @@
-set ERROR_COLOR red
-set WARN_COLOR brcyan
-set CODE_COLOR C0C0C0
-set INFO_COLOR brmagenta
-set SUCCESS_COLOR brgreen
+set -g TN_ERROR_COLOR red
+set -g TN_WARN_COLOR brcyan
+set -f TN_CODE_COLOR C0C0C0
+set -f TN_INFO_COLOR brmagenta
+set -f TN_SUCCESS_COLOR brgreen
 
 function _print
     set_color $argv[1];
@@ -11,19 +11,19 @@ function _print
 end
 
 function printerror
-    _print $ERROR_COLOR $argv;
+    _print $TN_ERROR_COLOR $argv;
 end
 
 function printwarning
-    _print $WARN_COLOR $argv;
+    _print $TN_WARN_COLOR $argv;
 end
 
 function printinfo
-    _print $INFO_COLOR $argv;
+    _print $TN_INFO_COLOR $argv;
 end
 
 function printsuccess
-    _print $SUCCESS_COLOR $argv;
+    _print $TN_SUCCESS_COLOR $argv;
 end
 
 function printcode
