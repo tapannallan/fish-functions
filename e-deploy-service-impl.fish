@@ -1,4 +1,4 @@
-function e-deployserviceimpl
+function e-deploy-service-impl
     set -l working_tree_status (git status -s)
     test -z "$working_tree_status" || printwarning 'WARNING: Working tree is not clean.'
 
